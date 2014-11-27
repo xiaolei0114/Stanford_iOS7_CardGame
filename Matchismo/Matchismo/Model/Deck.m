@@ -22,7 +22,7 @@
 -(void)addCard:(Card *)card atTop:(BOOL)atTop
 {
     if (atTop) {
-        [self.cards insertObjects:card atIndexes:0];
+        [self.cards insertObject:card atIndex:0];
     }
     else {
         [self.cards addObject:card];
