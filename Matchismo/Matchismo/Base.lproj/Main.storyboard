@@ -19,7 +19,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CoO-at-4yp">
                                 <rect key="frame" x="259" y="260" width="128" height="128"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <state key="normal" title="First Try ☀︎" backgroundImage="icon_front_256">
+                                <state key="normal" backgroundImage="icon_back_256">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -62,6 +62,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon_front_256" width="128" height="128"/>
+        <image name="icon_back_256" width="128" height="128"/>
     </resources>
 </document>

@@ -22,19 +22,6 @@
 -(Deck *) deck
 {
     if (!_deck) _deck = [[PlayingCardDeck alloc]init];
-    
-    /*
-    if (!_deck) _deck = [[Deck alloc]init];
-    for (NSString *suit in [PlayingCard validSuits])
-    {
-        for (NSUInteger rank = 1; rank <= [PlayingCard maxRank];rank++) {
-            PlayingCard *card = [ [PlayingCard alloc] init];
-            card.suit = suit;
-            card.rank = rank;
-            [_deck addCard:card];
-        }
-    }
-     */
     return _deck;
 }
 
@@ -50,22 +37,22 @@
     
     //draw a random card from our deck untill the deck runs out
     //display its info in current Title
-    PlayingCard *card = [self.deck drawRandomCard];
-    [sender setTitle:card.contents forState:UIControlStateNormal];
-    
-    
-    /*
-    if ([sender.currentTitle isEqualToString:@"First Try ☀︎"]) {
-        [sender setBackgroundImage:[UIImage imageNamed:@"icon_back_256"]
-                          forState:UIControlStateNormal];
-        [sender setTitle:@"Fight on!" forState:UIControlStateNormal];
+    if (self.flipCount <= 2*52) {
+        //card is by default in its back
+        if (![sender.currentTitle length]) { // it is currently in its back
+            //draw a card
+            Card *card = [self.deck drawRandomCard];
+            
+            //coordinate its attribute to the label
+            [sender setTitle:card.contents forState:UIControlStateNormal];
+            //change the image to the front
+            [sender setBackgroundImage:[UIImage imageNamed:@"icon_front_256"] forState:UIControlStateNormal];
+        }
+        else {// it is currently in its front
+            [sender setTitle:@"" forState:UIControlStateNormal];
+            [sender setBackgroundImage:[UIImage imageNamed:@"icon_back_256"] forState:UIControlStateNormal];
+        }
     }
-    else {
-        [sender setBackgroundImage:[UIImage imageNamed:@"icon_front_256"]
-                          forState:UIControlStateNormal];
-        [sender setTitle:@"First Try ☀︎" forState:UIControlStateNormal];
-    }
-     */
     self.flipCount++;
 }
 
