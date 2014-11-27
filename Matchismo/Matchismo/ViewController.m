@@ -21,10 +21,10 @@
 
 -(Deck *) deck
 {
+    if (!_deck) _deck = [[PlayingCardDeck alloc]init];
+    
+    /*
     if (!_deck) _deck = [[Deck alloc]init];
-    //Need 52 pieces of cards
-    //initialize them with different suit and rank
-    //add to the deck
     for (NSString *suit in [PlayingCard validSuits])
     {
         for (NSUInteger rank = 1; rank <= [PlayingCard maxRank];rank++) {
@@ -34,6 +34,7 @@
             [_deck addCard:card];
         }
     }
+     */
     return _deck;
 }
 
