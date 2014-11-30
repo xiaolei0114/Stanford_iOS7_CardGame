@@ -46,13 +46,17 @@
             [sender setTitle:card.contents forState:UIControlStateNormal];
             //change the image to the front
             [sender setBackgroundImage:[UIImage imageNamed:@"icon_front_256"] forState:UIControlStateNormal];
+            
+            self.flipCount++;
         }
     }
     else {// it is currently in its front
         [sender setTitle:@"" forState:UIControlStateNormal];
         [sender setBackgroundImage:[UIImage imageNamed:@"icon_back_256"] forState:UIControlStateNormal];
+        self.flipCount++;
     }
-    self.flipCount++;
+    
+    
 }
 
 
