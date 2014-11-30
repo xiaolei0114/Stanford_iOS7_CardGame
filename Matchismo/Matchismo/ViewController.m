@@ -37,21 +37,20 @@
     
     //draw a random card from our deck untill the deck runs out
     //display its info in current Title
-    if (self.flipCount <= 2*52) {
         //card is by default in its back
-        if (![sender.currentTitle length]) { // it is currently in its back
-            //draw a card
-            Card *card = [self.deck drawRandomCard];
-            
+    if (![sender.currentTitle length]) { // it is currently in its back
+        //draw a card
+        Card *card = [self.deck drawRandomCard];
+        if (card) {
             //coordinate its attribute to the label
             [sender setTitle:card.contents forState:UIControlStateNormal];
             //change the image to the front
             [sender setBackgroundImage:[UIImage imageNamed:@"icon_front_256"] forState:UIControlStateNormal];
         }
-        else {// it is currently in its front
-            [sender setTitle:@"" forState:UIControlStateNormal];
-            [sender setBackgroundImage:[UIImage imageNamed:@"icon_back_256"] forState:UIControlStateNormal];
-        }
+    }
+    else {// it is currently in its front
+        [sender setTitle:@"" forState:UIControlStateNormal];
+        [sender setBackgroundImage:[UIImage imageNamed:@"icon_back_256"] forState:UIControlStateNormal];
     }
     self.flipCount++;
 }
