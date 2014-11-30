@@ -20,6 +20,22 @@
     
 }
 
+//override the one from Card
+-(int)match:(NSArray *)othercards {
+    int score = 0;
+    
+    //currently only matches 2 cards
+    if ([othercards count] == 1) {
+        //first object will no crash when index = 0 contains no object
+        PlayingCard *card = [othercards firstObject];
+        if (card.rank == self.rank)
+            score = 4;
+        else if ([card.suit isEqualToString:self.suit])
+            score = 1;
+    }
+    return score;
+}
+
 + (NSArray *) validSuits {
     return @[@"♥",@"♦",@"♠",@"♣"];
 }

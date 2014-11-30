@@ -10,6 +10,7 @@
 #import "Deck.h"
 #import "PlayingCard.h"
 #import "PlayingCardDeck.h"
+#import "CardMatchingGame.h"
 @interface ViewController : UIViewController
 
 @end

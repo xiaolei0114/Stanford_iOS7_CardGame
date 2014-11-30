@@ -10,54 +10,55 @@
 
 @interface ViewController ()
 
-//note it is weak, and this is called outlet.
-@property (weak, nonatomic) IBOutlet UILabel *flipsLabel;
-@property (nonatomic) int flipCount;
-@property (strong, nonatomic) Deck *deck;
+//models are like the data source of controller.
+@property (strong, nonatomic) CardMatchingGame* game;
+@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;//card are stored in random order.
+@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @end
 
 
 @implementation ViewController
 
--(Deck *) deck
-{
-    if (!_deck) _deck = [[PlayingCardDeck alloc]init];
-    return _deck;
+-(CardMatchingGame *) game {
+    if (!_game) _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count] usingDeck:[self createDeck]];
+        
+    return _game;
 }
 
-- (void) setFlipCount:(int)flipCount {
-    _flipCount = flipCount;
-    self.flipsLabel.text = [NSString stringWithFormat:@"Flips:%d",self.flipCount];
-    NSLog(@"You have clicked %d times !",self.flipCount);
+-(Deck *) createDeck
+{
+    return [[PlayingCardDeck alloc] init];
 }
 
 //"Sender" is the object that will send messages to the controller
-- (IBAction)touchCardButton:(UIButton *)sender {
+- (IBAction)touchCardButton:(UIButton *)sender
+{
     
-    
-    //draw a random card from our deck untill the deck runs out
-    //display its info in current Title
-        //card is by default in its back
-    if (![sender.currentTitle length]) { // it is currently in its back
-        //draw a card
-        Card *card = [self.deck drawRandomCard];
-        if (card) {
-            //coordinate its attribute to the label
-            [sender setTitle:card.contents forState:UIControlStateNormal];
-            //change the image to the front
-            [sender setBackgroundImage:[UIImage imageNamed:@"cardfront"] forState:UIControlStateNormal];
-            
-            self.flipCount++;
-        }
+    NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
+    [self.game chooseCardAtIndex:chosenButtonIndex];
+    [self updateUI];
+}
+
+-(void) updateUI
+{
+    for (UIButton *cardButton in self.cardButtons) {
+        NSUInteger cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
+        Card* card = [self.game cardAtIndex:cardButtonIndex];
+        [cardButton setTitle:[self titleForCard:card] forState:UIControlStateNormal];
+        [cardButton setImage:[self backgroundImageForCard:card] forState:UIControlStateNormal];
+        cardButton.enabled = !card.isMatched;
+        self.scoreLabel.text = [NSString stringWithFormat:@"Score %ld", (long)self.game.score];
     }
-    else {// it is currently in its front
-        [sender setTitle:@"" forState:UIControlStateNormal];
-        [sender setBackgroundImage:[UIImage imageNamed:@"cardback"] forState:UIControlStateNormal];
-        self.flipCount++;
-    }
-    
     
 }
 
+- (NSString *)titleForCard: (Card *)card
+{
+    return card.isChosen ? card.contents : @"";
+}
 
+- (UIImage *)backgroundImageForCard : (Card *) card
+{
+    return [UIImage imageNamed:card.isChosen ? @"cardfront" : @"cardback"];
+}
 @end
