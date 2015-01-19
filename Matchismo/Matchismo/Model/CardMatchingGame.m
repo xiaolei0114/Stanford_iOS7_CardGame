@@ -15,16 +15,17 @@
 
 @implementation CardMatchingGame
 
+static const int MATCH_BONUS = 4;
+static const int MISMATCH_PENALTY = 2;
+static const int COST_TO_CHOOSE = 1;
+
 - (NSMutableArray*)cards
 {
     if (!_cards) _cards = [[NSMutableArray alloc] init];
     return _cards;
 }
 
-static const int MATCH_BONUS = 4;
-static const int MISMATCH_PENALTY = 2;
-static const int COST_TO_CHOOSE = 1;
--(instancetype)initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck
+- (instancetype) initWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck
 {
     self = [super init];//super's designated initializer
     
@@ -46,29 +47,34 @@ static const int COST_TO_CHOOSE = 1;
     return self;
 }
 
--(void)chooseCardAtIndex:(NSUInteger)index
+- (void) chooseCardAtIndex:(NSUInteger)index
 {
     Card *card = [self cardAtIndex:index];
     if (!card.isMatched) {
-        if(card.isChosen) {
+        if(card.isChosen) {//click on an chosen card will put it backwards
             card.Chosen = NO;
         }
         else {
-            //match against other chosen cards
+            //Try to match against other chosen cards, if there is any
             for (Card *othercard in self.cards)
-                if (othercard.isChosen && !othercard.isMatched) {
+            {
+                if (othercard.isChosen && !othercard.isMatched)
+                {
                     int matchscore = [card match:@[othercard]];
-                    if (matchscore) {
+                    if (matchscore)
+                    {
                         self.score += matchscore * MATCH_BONUS;
                         card.isMatched = YES;
                         othercard.isMatched = YES;
                     }
-                    else {
+                    else
+                    {
                         self.score -= MISMATCH_PENALTY;
-                        othercard.chosen = NO;// put it back when mismatch
+                        othercard.chosen = NO;// put the other one back when mismatch
                     }
                     break;//if there is another card matched with the chosen one, then match succeeded because currently we only allow 2 cards to match.
                 }
+            }
             self.score -= COST_TO_CHOOSE;
             card.chosen = YES;
         }

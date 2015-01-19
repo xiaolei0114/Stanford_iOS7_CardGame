@@ -21,7 +21,7 @@
 }
 
 //override the one from Card
--(int)match:(NSArray *)othercards {
+-(int) match:(NSArray *)othercards {
     int score = 0;
     
     //currently only matches 2 cards
@@ -36,8 +36,11 @@
     return score;
 }
 
-+ (NSArray *) validSuits {
-    return @[@"♥",@"♦",@"♠",@"♣"];
+# pragma setters
+- (void)setRank:(NSInteger)rank {
+    if (rank <= [PlayingCard maxRank]){
+        _rank = rank;
+    }
 }
 
 - (void)setSuit:(NSString *)suit {
@@ -47,6 +50,11 @@
         _suit = suit;
     }
     
+}
+
+# pragma getters related
++ (NSArray *) validSuits {
+    return @[@"♥",@"♦",@"♠",@"♣"];
 }
 
 - (NSString*) suit {
@@ -59,9 +67,5 @@
 
 + (NSUInteger) maxRank { return [ [self validRanks] count] -1;}
 
-- (void)setRank:(NSInteger)rank {
-    if (rank <= [PlayingCard maxRank]){
-        _rank = rank;
-    }
-}
+
 @end

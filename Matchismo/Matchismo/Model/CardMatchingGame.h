@@ -11,6 +11,8 @@
 #import "Card.h"
 @interface CardMatchingGame : NSObject
 
+@property (nonatomic, readonly) NSInteger score;
+
 //designated initializer
 //it means that it is not legally initialized unless this get called at some point
 -(instancetype)initWithCardCount:(NSUInteger)count
@@ -21,6 +23,4 @@
 
 //return a card at an indexed position
 -(Card*)cardAtIndex: (NSUInteger) index;
-
-@property (nonatomic, readonly) NSInteger score;
 @end
